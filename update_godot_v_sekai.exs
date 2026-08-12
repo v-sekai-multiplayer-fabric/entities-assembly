@@ -15,16 +15,44 @@ end
 dry_run = Enum.any?(argv, &(&1 in ["-n", "--no-push", "--dry-run"]))
 
 merge_remote = "v-sekai-multiplayer-fabric"
-merge_remote_url = "git@github.com:v-sekai-multiplayer-fabric/godot.git"
+# The engine repository was renamed `godot` -> `fabric-godot-core`. The old name still
+# redirects, which is why this kept working and why it was worth fixing anyway: a redirect is
+# somebody else's promise, and a clone made through one is named after a repository that no
+# longer exists.
+merge_remote_url = "git@github.com:v-sekai-multiplayer-fabric/fabric-godot-core.git"
 opentelemetry_remote = "opentelemetry-godot"
 opentelemetry_remote_url = "git@github.com:V-Sekai-fire/opentelemetry-godot.git"
 original_branch = "master"
 merge_branch = "multiplayer-fabric"
 
-# Absolute paths resolved before cd — the assembler and config live in
-# godot-assembly/, but all git work happens in the sibling godot/ repo.
+# Absolute paths resolved before cd — the assembler and config live here, but all git work
+# happens in the engine checkout beside this repository.
+#
+# The sibling is `fabric-godot-core`, which is the name the manifest clones it under. This
+# looked for `godot` and found nothing, so every run cloned a second multi-gigabyte tree next
+# to a checkout that was already there — and then assembled from a copy nobody had touched,
+# which is exactly the wrong one to assemble from if a branch was being tested locally.
+#
+# `GODOT_PATH` overrides, because a machine that does keep it elsewhere should not have to edit
+# this file to say so.
 script_dir = __ENV__.file |> Path.dirname() |> Path.expand()
-godot_path = script_dir |> Path.dirname() |> Path.join("godot") |> Path.expand()
+
+godot_path =
+  case System.get_env("GODOT_PATH") do
+    nil ->
+      parent = Path.dirname(script_dir)
+
+      ["fabric-godot-core", "godot"]
+      |> Enum.map(&Path.expand(Path.join(parent, &1)))
+      |> Enum.find(&File.dir?(Path.join(&1, ".git")))
+      |> case do
+        nil -> Path.expand(Path.join(parent, "fabric-godot-core"))
+        found -> found
+      end
+
+    env ->
+      Path.expand(env)
+  end
 assembler_path = Path.join(script_dir, "thirdparty/git-assembler")
 assembler_config = Path.join(script_dir, "gitassembly")
 
