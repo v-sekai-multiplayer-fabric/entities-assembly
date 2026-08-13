@@ -11,6 +11,19 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-http3
 
 # Engine core
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-config
+# feat/engine-fabric-core dropped from the assembly, pending archive to godot-archived.
+#
+# Most of what it carried is deliberately not wanted. It swapped DynamicBVH for
+# PredictiveBVH in servers/rendering/renderer_scene_cull and fenced core/math/dynamic_bvh
+# behind DISABLE_DEPRECATED -- an engine-wide broadphase replacement. The predictive BVH is
+# for the fabric services and interactors, not for Godot's own rendering and physics, so
+# that swap goes with the branch.
+#
+# One file does need a home first: scene/main/fabric_zone_peer_callbacks.h, 86 lines, which
+# modules/multiplayer_fabric/config.py gates can_build() on. That module already fails to
+# compile because this file lives here and not with it -- which is why nothing noticed that
+# it calls four functions nothing defines. Moving it onto feat/module-multiplayer-fabric is
+# a repair, not a chore, and it is the one thing this drop is waiting on.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/double-precision-mobile
 # merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/horizonos-immersive
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/call-gui-input
