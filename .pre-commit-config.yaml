@@ -1,0 +1,23 @@
+# Markdown formatting, run by prek (https://github.com/j178/prek) or pre-commit.
+#
+#   prek install          # wire it into .git/hooks
+#   prek run --all-files  # format everything, now
+#
+# Two documents, and both are read by somebody deciding whether to contribute. A formatter
+# is worth more here than a linter: it settles the argument rather than reporting it, and
+# it produces the same bytes on every machine, so a reviewer never reads a diff that is
+# only whitespace.
+repos:
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]

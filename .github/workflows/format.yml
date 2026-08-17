@@ -1,0 +1,41 @@
+# Markdown formatting, held by the same tool that formats it locally.
+#
+# This repository had no workflow at all, so a pull request could not go green and could
+# not be promoted out of draft either -- #51 sat as a draft reporting "no checks reported",
+# which is not a failure and offers nothing to pass. A change that cannot be checked is a
+# change reviewed by reading alone.
+#
+# prek runs the hooks in .pre-commit-config.yaml, the same ones `prek run --all-files`
+# runs on a laptop, at the same pinned revisions. So the answer here and the answer there
+# are the same answer, and a formatter that disagrees with CI is a contradiction rather
+# than a preference.
+#
+# What is deliberately not built: the Elixir driver and the vendored git-assembler. The
+# driver force-pushes assembled branches to a fork of Godot and the assembler rewrites
+# history, so running either in CI would do real work to real remotes to prove a document
+# was formatted. A green tick bought that way is worth less than no tick.
+name: format
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install prek
+        run: pipx install prek
+
+      - name: Formatting is what the hooks produce
+        run: prek run --all-files --show-diff-on-failure
