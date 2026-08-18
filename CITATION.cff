@@ -1,0 +1,47 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "entities-assembly: the branch assembly that builds the multiplayer-fabric Godot fork"
+abstract: >
+  This repository holds no engine code. It holds the recipe that assembles the
+  multiplayer-fabric Godot fork from upstream feature branches and pushes the result
+  to entities-godot: a gitassembly file naming each branch and how it is merged, and
+  an Elixir driver that runs the assembler and force-pushes the assembled branches
+  and a CalVer tag. A merge order is a decision, and keeping it in a file makes it
+  one that can be read and argued with rather than one held in somebody's shell
+  history.
+authors:
+  - family-names: Lee
+    given-names: "K. S. Ernest (iFire)"
+    email: ernest.lee@chibifire.com
+    orcid: "https://orcid.org/0000-0003-4570-1436"
+version: 0.1.0-dev.1
+date-released: "2026-08-17"
+license: MIT
+repository-code: "https://github.com/v-sekai-multiplayer-fabric/entities-assembly"
+keywords:
+  - godot
+  - branch-management
+  - build-automation
+references:
+
+  - type: software
+    title: "git-assembler: assemble git branches automatically"
+    url: "https://gitlab.com/wavexx/git-assembler"
+    notes: >
+      Vendored at thirdparty/git-assembler. It reads the gitassembly file and performs
+      the stage and merge steps; this repository supplies the file and the driver.
+
+  - type: software
+    title: "entities-godot: the multiplayer-fabric Godot fork"
+    url: "https://github.com/v-sekai-multiplayer-fabric/entities-godot"
+    notes: >
+      The output. The assembled multiplayer-fabric-base and multiplayer-fabric branches
+      are force-pushed there, so that repository's history is a product of this file
+      rather than of a sequence of merges anybody performed by hand.
+
+  - type: software
+    title: "Godot Engine"
+    authors:
+      - name: "Godot Engine contributors"
+    url: "https://godotengine.org/"
+    notes: "The upstream every assembled branch is a feature branch of."
