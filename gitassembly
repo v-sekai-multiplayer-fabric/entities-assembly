@@ -1,38 +1,13 @@
-# Independent branches (each standalone on master)
 stage multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/d3d12-download-retry
+
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
-# feat/crypto-extensions archived to godot-archived (branch crypto-extensions); the
-# ECDSA + SAN self-signed cert work it carried lives in feat/module-http3. Dropped from the assembly.
-# feat/tapered-capsule-shape disconnected from the assembly (2026-09-09); the branch
-# stays, re-rooted on the pristine commit, and merges cleanly if it is wanted back.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/joint-limitation
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lasso
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-http3
-
-# Engine core
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-config
-# feat/engine-fabric-core dropped from the assembly, pending archive to godot-archived.
-#
-# Most of what it carried is deliberately not wanted. It swapped DynamicBVH for
-# PredictiveBVH in servers/rendering/renderer_scene_cull and fenced core/math/dynamic_bvh
-# behind DISABLE_DEPRECATED -- an engine-wide broadphase replacement. The predictive BVH is
-# for the fabric services and interactors, not for Godot's own rendering and physics, so
-# that swap goes with the branch.
-#
-# One file does need a home first: scene/main/fabric_zone_peer_callbacks.h, 86 lines, which
-# modules/multiplayer_fabric/config.py gates can_build() on. That module already fails to
-# compile because this file lives here and not with it -- which is why nothing noticed that
-# it calls four functions nothing defines. Moving it onto feat/module-multiplayer-fabric is
-# a repair, not a chore, and it is the one thing this drop is waiting on.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/double-precision-mobile
-# merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/horizonos-immersive
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/call-gui-input
-
-# Assets: predictive BVH + Lean proofs
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/assets
-
-# Modules (each standalone on master)
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-sqlite
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-multiplayer-fabric
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-multiplayer-fabric-asset
@@ -40,28 +15,7 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-open-tel
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-keychain
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-cassie
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-xr-grid
-
-# Audio
-# feat/spatial-audio-server does not exist on the godot fork; spatial audio ships
-# through feat/module-resonance-audio below. Dropped so the assembly runs.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-speech
-# feat/sandbox dropped from the assembly: the sandbox module is supplied by the repo
-# manifest as a project at modules/sandbox rather than vendored into the tree, so
-# merging the branch that vendors it would put files under a placed checkout. The
-# .gitignore entry that keeps that path out of the index rides on feat/lint-config.
-
-# Media (animation + decoders)
-# feat/lottie archived to archived/lottie (ThorVG 1.0.3 loader fix landed there); dropped from the assembly.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/native-media
-
-# Audio: resonance-audio last — its CODEOWNERS and changed_files.yml additions
-# conflict with earlier module branches when merged sooner.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonance-audio
-
-# The fork's own branches. Each stands alone on the pristine commit rather than
-# patching the assembled result.
 merge multiplayer-fabric remotes/v-sekai-fabric/feat/module-cineform
-# feat/module-game dropped from the assembly (2026-09-09): the branch no longer exists
-# on the remote. It was created during the reassembly, pushed, and deleted afterwards,
-# as were feat/citation and feat/tapered-capsule-shape. modules/game holds RFD 1175's
-# specification and no code, so nothing in the tree depends on it being assembled.
