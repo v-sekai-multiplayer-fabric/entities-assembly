@@ -61,4 +61,7 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonanc
 # The fork's own branches. Each stands alone on the pristine commit rather than
 # patching the assembled result.
 merge multiplayer-fabric remotes/v-sekai-fabric/feat/module-cineform
-merge multiplayer-fabric remotes/v-sekai-fabric/feat/module-game
+# feat/module-game dropped from the assembly (2026-09-09): the branch no longer exists
+# on the remote. It was created during the reassembly, pushed, and deleted afterwards,
+# as were feat/citation and feat/tapered-capsule-shape. modules/game holds RFD 1175's
+# specification and no code, so nothing in the tree depends on it being assembled.
