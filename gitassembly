@@ -4,7 +4,8 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
 # feat/crypto-extensions archived to godot-archived (branch crypto-extensions); the
 # ECDSA + SAN self-signed cert work it carried lives in feat/module-http3. Dropped from the assembly.
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/tapered-capsule-shape
+# feat/tapered-capsule-shape disconnected from the assembly (2026-09-09); the branch
+# stays, re-rooted on the pristine commit, and merges cleanly if it is wanted back.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/joint-limitation
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lasso
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-http3
@@ -44,7 +45,10 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-xr-grid
 # feat/spatial-audio-server does not exist on the godot fork; spatial audio ships
 # through feat/module-resonance-audio below. Dropped so the assembly runs.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-speech
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/sandbox
+# feat/sandbox dropped from the assembly: the sandbox module is supplied by the repo
+# manifest as a project at modules/sandbox rather than vendored into the tree, so
+# merging the branch that vendors it would put files under a placed checkout. The
+# .gitignore entry that keeps that path out of the index rides on feat/lint-config.
 
 # Media (animation + decoders)
 # feat/lottie archived to archived/lottie (ThorVG 1.0.3 loader fix landed there); dropped from the assembly.
@@ -53,3 +57,8 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/native-media
 # Audio: resonance-audio last — its CODEOWNERS and changed_files.yml additions
 # conflict with earlier module branches when merged sooner.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonance-audio
+
+# The fork's own branches. Each stands alone on the pristine commit rather than
+# patching the assembled result.
+merge multiplayer-fabric remotes/v-sekai-fabric/feat/module-cineform
+merge multiplayer-fabric remotes/v-sekai-fabric/feat/module-game
